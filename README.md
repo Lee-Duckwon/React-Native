@@ -1,1 +1,1 @@
-# React-Native 연습용
+# React-Native Todo List 만들기
