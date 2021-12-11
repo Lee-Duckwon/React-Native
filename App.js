@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
+import uuid from 'react-uuid';
 import {
   StyleSheet,
   Text,
@@ -11,18 +12,29 @@ import {
 } from 'react-native';
 
 export default function App() {
-  const [myGoal, setMyGoal] = useState('');
+  const [myGoal, setMyGoal] = useState({
+    key: '',
+    text: ''
+  });
   const [goalList, setGoalList] = useState([]);
 
   const goalInputHandler = (enteredText) => {
-    setMyGoal(enteredText);
+    setMyGoal({
+      key: '',
+      text: enteredText
+    });
   };
 
   const addGoalHandler = () => {
     // goalList에 추가 함수
-    const checkList = goalList.filter((el) => el === myGoal);
+    const addKeyWithText = {
+      key: uuid(),
+      text: myGoal.text
+    };
+
+    const checkList = goalList.filter((el) => el.text === myGoal.text);
     if (checkList.length === 0) {
-      setGoalList((goalList) => [...goalList, myGoal]);
+      setGoalList((goalList) => [...goalList, addKeyWithText]);
     }
     setMyGoal('');
   };
@@ -41,7 +53,7 @@ export default function App() {
         data={goalList}
         renderItem={(item) => (
           <View style={styles.goalItem}>
-            <Text style={styles.goalText}>{item.item}</Text>
+            <Text style={styles.goalText}>{item.item.text}</Text>
           </View>
         )}
       />
